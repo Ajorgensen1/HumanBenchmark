@@ -20,8 +20,8 @@ driver.get("https://humanbenchmark.com/login")
 driver.implicitly_wait(2)
 
 # Initializing username and password (change to whatever your username and password are)
-username = "TheBandit"
-password = "D4rkmatter!"
+username = "username"
+password = "password"
 
 # Input username
 usernameInput = WebDriverWait(driver, 10).until(
