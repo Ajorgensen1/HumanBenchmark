@@ -19,8 +19,8 @@ driver.get("https://humanbenchmark.com/login")
 driver.implicitly_wait(2)
 
 # Initializing username and password (change to whatever your username and password are)
-username = "TheBandit"
-password = "D4rkmatter!"
+username = "username"
+password = "password"
 
 # Input username
 usernameInput = WebDriverWait(driver, 10).until(
@@ -40,13 +40,13 @@ loginButton = WebDriverWait(driver, 10).until(
 )
 loginButton.click()
 
-# Navigate to verbal memory game
+# Navigate to typing game
 verbal = WebDriverWait(driver, 10).until(
     EC.presence_of_element_located((By.XPATH, "//div[@title='Typing']"))
 )
 verbal.click()
 
-# More navigation
+# More navigation and start game
 play = WebDriverWait(driver, 10).until(
     EC.presence_of_element_located((By.XPATH, "//a[@href='/tests/typing']"))
 )
