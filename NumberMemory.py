@@ -41,7 +41,7 @@ loginButton = WebDriverWait(driver, 10).until(
 )
 loginButton.click()
 
-# Navigate to verbal memory game
+# Navigate to number memory game
 verbal = WebDriverWait(driver, 10).until(
     EC.presence_of_element_located((By.XPATH, "//div[@title='Number Memory']"))
 )
@@ -53,22 +53,24 @@ play = WebDriverWait(driver, 10).until(
 )
 play.click()
 
-# Start verbal memory game
+# Start number memory game
 start = WebDriverWait(driver, 10).until(
     EC.presence_of_element_located((By.XPATH, "//button[contains(text(),'Start')]"))
 )
 start.click()
 
 while True:
-    # Update page source with new word
+    # Update page source with new number
     page_source = driver.page_source
     soup = BeautifulSoup(page_source, 'html.parser')
-    # Locate Word
+    # Locate number
     number = soup.find('div', class_='big-number')
+    # Wait until soup cannot find timer bar (This means timer bar has concluded and input box is present)
     while soup.find('div', class_='number-timer-bar'):
         page_source = driver.page_source
         soup = BeautifulSoup(page_source, 'html.parser')
 
+    # Type in number and submit
     submitBox = WebDriverWait(driver, 10).until(
         EC.presence_of_element_located((By.TAG_NAME, "input"))
     )
@@ -79,6 +81,7 @@ while True:
     submitBox.send_keys(number)
     submitButton.click()
     time.sleep(1)
+    # Continue to next number
     next = WebDriverWait(driver, 10).until(
         EC.presence_of_element_located((By.XPATH, "//button[contains(text(),'NEXT')]"))
     )
