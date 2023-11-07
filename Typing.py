@@ -52,11 +52,14 @@ play = WebDriverWait(driver, 10).until(
 )
 play.click()
 
+# Declaring beautiful soup variables and parsing webpage
 page_source = driver.page_source
 soup = BeautifulSoup(page_source, 'html.parser')
+# Finding each individual character and putting into array
 spans = soup.find_all('span', class_='incomplete')
 text_to_type = ''.join([span.get_text() for span in spans])
 time.sleep(2)
+# Type contents of array with characters 
 pyautogui.write(text_to_type, interval=0)
 
 
