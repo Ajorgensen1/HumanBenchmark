@@ -8,6 +8,7 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.keys import Keys
 import time
 import pyautogui
+import re
 
 # setting options to not have annoying warnings
 options = webdriver.ChromeOptions()
@@ -40,7 +41,7 @@ loginButton = WebDriverWait(driver, 10).until(
 )
 loginButton.click()
 
-# Navigate to number memory game
+# Navigate to verbal memory game
 verbal = WebDriverWait(driver, 10).until(
     EC.presence_of_element_located((By.XPATH, "//div[@title='Number Memory']"))
 )
@@ -52,10 +53,35 @@ play = WebDriverWait(driver, 10).until(
 )
 play.click()
 
-# Start number memory game
+# Start verbal memory game
 start = WebDriverWait(driver, 10).until(
     EC.presence_of_element_located((By.XPATH, "//button[contains(text(),'Start')]"))
 )
 start.click()
 
-time.sleep(10)
+while True:
+    # Update page source with new word
+    page_source = driver.page_source
+    soup = BeautifulSoup(page_source, 'html.parser')
+    # Locate Word
+    number = soup.find('div', class_='big-number')
+    while soup.find('div', class_='number-timer-bar'):
+        page_source = driver.page_source
+        soup = BeautifulSoup(page_source, 'html.parser')
+
+    submitBox = WebDriverWait(driver, 10).until(
+        EC.presence_of_element_located((By.TAG_NAME, "input"))
+    )
+    submitButton = WebDriverWait(driver, 10).until(
+        EC.presence_of_element_located((By.XPATH, "//button[contains(text(),'Submit')]"))
+    )
+    submitBox.click()
+    submitBox.send_keys(number)
+    submitButton.click()
+    time.sleep(1)
+    next = WebDriverWait(driver, 10).until(
+        EC.presence_of_element_located((By.XPATH, "//button[contains(text(),'NEXT')]"))
+    )
+    next.click()
+
+
